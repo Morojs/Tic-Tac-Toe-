@@ -107,11 +107,10 @@ public class TicTac {
 		
 		if(checkColumns()) return;
 		
-		// Random Play
+		if(checkFirstDiagnoleLine()) return;
+		
+		if(checkSecondDiagnoleLine()) return;
 
-		
-		
-		
 	}
 	public boolean checkLignes() {
 	
@@ -161,20 +160,50 @@ public class TicTac {
 	  }
 		return occurenceX > 1 && this.matrice[ligne][col]=='?' ? true : false;
 	}
-	public void checkDiagnoles() {
+	public boolean checkFirstDiagnoleLine() {
 		
+		 // check fisrt diagonales line
+		int occurenceX=0,col=0,ligne=0;;
 		
-		
-		
-		
-		
+		if(playState()) {	
+			for (int c = 0; c < matrice.length; c++) {
+		 		
+				if(matrice[c][c]==symbole)
+		 			occurenceX++;
+		 		else {
+			 		  col=c;
+			 		  ligne=c;
+			 		}
+			}
+			
+			if(occurenceX>1 && this.matrice[col][ligne]=='?') {
+				this.matrice[col][ligne]='O';
+			}
+	  }	
+		return occurenceX > 1 && this.matrice[ligne][col]=='?' ? true : false;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
+	public boolean checkSecondDiagnoleLine() {
+		
+		 // check Second diagonale line
+		int occurenceX=0,col=0,ligne=0;;
+		
+		if(playState()) {	
+			for (int c = 0; c < matrice.length; c++) {
+		 		
+				if(matrice[c][matrice.length-(c+1)]==symbole)
+		 			occurenceX++;
+		 		else {
+			 		  col=c;
+			 		  ligne=c;
+			 		}
+			}
+			
+			if(occurenceX>1 && this.matrice[col][ligne]=='?') {
+				this.matrice[col][ligne]='O';
+			}
+	  }	
+		return occurenceX > 1 && this.matrice[ligne][col]=='?' ? true : false;
+	}
 }
+	
+

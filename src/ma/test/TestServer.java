@@ -10,8 +10,7 @@ public class TestServer {
 		 // don't need to specify a hostname, it will be the current machine
 		Serveur _server=new Serveur(1000);
 		_server.read();
-      
-
+     
 	}
 }
 

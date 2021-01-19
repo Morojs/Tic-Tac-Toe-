@@ -1,6 +1,7 @@
 package ma.interfaces;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -33,7 +34,7 @@ public class TicTacInterface extends JPanel {
 			initializeButtons();
 			
 		}
-		// m�thode utilis�e pour cr�er les 9 boutons
+		//
 		
 		public void initializeButtons()
 	    {
@@ -44,6 +45,7 @@ public class TicTacInterface extends JPanel {
 	        	
 	            buttons[i] = new JButton();
 	            buttons[i].setText("?");
+	            buttons[i].setFont(new Font("Arial", Font.PLAIN, 40));
 	            buttons[i].setBackground(Color.black);
 	            buttons[i].setForeground(Color.white);
 	            if(i==3 || i==6) {
@@ -60,9 +62,9 @@ public class TicTacInterface extends JPanel {
 				        String[] parts = ((String) buttonClicked.getClientProperty("matrice")).split(",");
 				        Client.matrice[Integer.parseInt(parts[0])][Integer.parseInt(parts[1])]=symbole;
 				        try {
-				        	_client.play(); // envoyer la matrice client au serveur via sockets
+				        	_client.play(); // 
 				        	_client.read();
-				        	// reinitialiser la matrcie
+				        	//
 				        	resetButtonsMarks();
 				        	
 						} catch (IOException e1) {
