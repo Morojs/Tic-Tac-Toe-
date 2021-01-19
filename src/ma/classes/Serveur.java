@@ -34,7 +34,9 @@ public class Serveur {
 			this.flux = _socket.getInputStream();
 			objectInputStream = new ObjectInputStream(this.flux);
 			_ticTac.matrice = (char[][]) objectInputStream.readObject();
-			_ticTac.playState();
+			
+			_ticTac.playOrder();
+			
 			System.out.println("play state done ! sur le serveur ");
 		
 			objectOutputStream=new ObjectOutputStream(this._socket.getOutputStream());

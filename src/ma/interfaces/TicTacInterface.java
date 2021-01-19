@@ -10,9 +10,12 @@ import java.net.UnknownHostException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import ma.classes.Client;
+import ma.classes.TicTac;
+
 public class TicTacInterface extends JPanel {
 
 		private char symbole = 'X';
@@ -21,7 +24,7 @@ public class TicTacInterface extends JPanel {
 	  
 		public TicTacInterface() throws UnknownHostException, IOException {
 			Client.matrice=new char[3][3];
-			_client=new Client(InetAddress.getLocalHost(),4040);
+			_client=new Client(InetAddress.getLocalHost(),1000);
 			for (int l = 0; l < Client.matrice.length; l++) {
 				for (int c = 0; c < Client.matrice.length; c++)
 					Client.matrice[l][c]='?';
@@ -30,7 +33,7 @@ public class TicTacInterface extends JPanel {
 			initializeButtons();
 			
 		}
-		// méthode utilisée pour créer les 9 boutons
+		// mï¿½thode utilisï¿½e pour crï¿½er les 9 boutons
 		
 		public void initializeButtons()
 	    {
@@ -59,8 +62,7 @@ public class TicTacInterface extends JPanel {
 				        try {
 				        	_client.play(); // envoyer la matrice client au serveur via sockets
 				        	_client.read();
-				        	
-				        	// réinitialiser la matrcie
+				        	// reinitialiser la matrcie
 				        	resetButtonsMarks();
 				        	
 						} catch (IOException e1) {
@@ -81,8 +83,8 @@ public class TicTacInterface extends JPanel {
 			      buttons[i].setText(String.valueOf(Client.matrice[Integer.parseInt(parts[0])][Integer.parseInt(parts[1])]));
 			  }	
 		}	
-		// méthode utilisée pour réinitialiser les boutons
-		// pour que vous puissiez jouer à nouveau
+		// methode utilise pour reinitialiser les boutons
+		// pour que vous puissiez jouer a nouveau
 		private void resetButtons() {
 			for(int i =0;i<9;i++) {
 				  buttons[i].setText("?");
@@ -90,7 +92,7 @@ public class TicTacInterface extends JPanel {
 			  }	
 		}
 
-		// vérification designe
+		// vï¿½rification designe
 		
 		public boolean checkDraw() {
 			boolean full = true;
