@@ -24,10 +24,6 @@ public class Client {
 		super();
 		this.port=port;
 		this.hote = hote;
-		this._socket=new Socket(this.hote,this.port);
-		this.flux=this._socket.getOutputStream();
-        this.objectOutputStream = new ObjectOutputStream(this.flux);
-      
        /* // make a bunch of messages to send.
         List<Integer> messages = new ArrayList<Integer>();
         messages.add(1);
@@ -44,11 +40,19 @@ public class Client {
 	}
 	public void read() throws IOException, ClassNotFoundException {
 		// Réception du Nouvelle matrice
+		
 		entree = new ObjectInputStream (this._socket.getInputStream());
-		System.out.println((char[][])entree.readObject());
+		matrice = (char[][]) entree.readObject();
+		for (int l = 0; l < matrice.length; l++) {
+			for (int c = 0; c < matrice.length; c++)
+				System.out.println(matrice[l][c]);
+		}
 	}
 	public void play() throws IOException {
 		System.out.println("Sending data to the ServerSocket");
+		this._socket=new Socket(this.hote,this.port);
+		this.flux=this._socket.getOutputStream();
+		this.objectOutputStream = new ObjectOutputStream(this.flux);
         objectOutputStream.writeObject(this.matrice);
         this.objectOutputStream.flush();
        // System.out.println("Closing socket and terminating program.");

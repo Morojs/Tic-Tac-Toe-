@@ -35,7 +35,6 @@ public class TicTacInterface extends JPanel {
 		public void initializeButtons()
 	    {
 		
-		   
 		   int c=0,l=0;
 	        for(int i = 0; i <= 8; i++)
 	        {
@@ -48,18 +47,26 @@ public class TicTacInterface extends JPanel {
 	            	c=0; 
 	            	++l;
 	            }
-	            buttons[i].putClientProperty("matrice",Integer.toString(l)+","+Integer.toString(c++)); // NOI18N
+	            buttons[i].putClientProperty("matrice",Integer.toString(l)+","+Integer.toString(c++)); 
 	            buttons[i].addActionListener(new ActionListener() {
 				
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						JButton buttonClicked = (JButton) e.getSource(); //get the particular button that was clicked
+						JButton buttonClicked = (JButton) e.getSource(); 
 				        buttonClicked.setText(String.valueOf(symbole));
 				        String[] parts = ((String) buttonClicked.getClientProperty("matrice")).split(",");
 				        Client.matrice[Integer.parseInt(parts[0])][Integer.parseInt(parts[1])]=symbole;
 				        try {
-				        	_client.play();
+				        	_client.play(); // envoyer la matrice client au serveur via sockets
+				        	_client.read();
+				        	
+				        	// réinitialiser la matrcie
+				        	resetButtonsMarks();
+				        	
 						} catch (IOException e1) {
+							e1.printStackTrace();
+						} catch (ClassNotFoundException e1) {
+							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
 				        
@@ -68,15 +75,18 @@ public class TicTacInterface extends JPanel {
 	            add(buttons[i]); // ajouter button dans JPanel        
 	        }
 	    }
-		
-	
+		private void resetButtonsMarks() {
+			for(int i =0;i<9;i++) {
+				  String[] parts = ((String) buttons[i].getClientProperty("matrice")).split(",");  
+			      buttons[i].setText(String.valueOf(Client.matrice[Integer.parseInt(parts[0])][Integer.parseInt(parts[1])]));
+			  }	
+		}	
 		// méthode utilisée pour réinitialiser les boutons
 		// pour que vous puissiez jouer à nouveau
 		private void resetButtons() {
 			for(int i =0;i<9;i++) {
 				  buttons[i].setText("?");
-				  buttons[i].setBackground(Color.white);
-				  
+				  buttons[i].setBackground(Color.white);  
 			  }	
 		}
 

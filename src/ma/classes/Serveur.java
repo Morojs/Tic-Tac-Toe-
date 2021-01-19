@@ -18,12 +18,12 @@ public class Serveur {
 	private ObjectOutputStream objectOutputStream;
 	private InputStream flux;
 	private char[][] matrice;
-
+	private TicTac _ticTac;
 	public Serveur(int port) throws IOException, ClassNotFoundException {
 		super();
 		this.port = port;
 		this._serverSocket = new ServerSocket(this.port);
-
+		this._ticTac=new TicTac('X');
 	}
 
 	public void read() throws IOException, ClassNotFoundException {
@@ -33,17 +33,12 @@ public class Serveur {
 			// create a DataInputStream so we can read data from it.
 			this.flux = _socket.getInputStream();
 			objectInputStream = new ObjectInputStream(this.flux);
-			matrice = (char[][]) objectInputStream.readObject();
-
-			for (int l = 0; l < matrice.length; l++) {
-				for (int c = 0; c < matrice.length; c++)
-					System.out.println(matrice[l][c]);
-			}
-			
-			System.out.println("data reçu sur le serveur ");
-			
+			_ticTac.matrice = (char[][]) objectInputStream.readObject();
+			_ticTac.playState();
+			System.out.println("play state done ! sur le serveur ");
+		
 			objectOutputStream=new ObjectOutputStream(this._socket.getOutputStream());
-			objectOutputStream.writeObject(this.matrice);
+			objectOutputStream.writeObject(_ticTac.matrice);
 	        this.objectOutputStream.flush();
 		}
 		 //System.out.println("Closing sockets.");
