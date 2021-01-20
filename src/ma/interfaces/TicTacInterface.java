@@ -22,14 +22,17 @@ public class TicTacInterface extends JPanel {
 		private char symbole = 'X';
 		private JButton[] buttons = new JButton[9];
 		private Client _client;
-	  
-		public TicTacInterface() throws UnknownHostException, IOException {
-			Client.matrice=new char[3][3];
-			_client=new Client(InetAddress.getLocalHost(),1000);
-			for (int l = 0; l < Client.matrice.length; l++) {
+	    public void resetMatrice() {
+	    	for (int l = 0; l < Client.matrice.length; l++) {
 				for (int c = 0; c < Client.matrice.length; c++)
 					Client.matrice[l][c]='?';
 			}
+	    	//
+	    }
+		public TicTacInterface() throws UnknownHostException, IOException {
+			Client.matrice=new char[3][3];
+			_client=new Client(InetAddress.getLocalHost(),1000);
+			resetMatrice();
 			setLayout(new GridLayout(3,3));
 			initializeButtons();
 			
@@ -62,8 +65,10 @@ public class TicTacInterface extends JPanel {
 				        String[] parts = ((String) buttonClicked.getClientProperty("matrice")).split(",");
 				        Client.matrice[Integer.parseInt(parts[0])][Integer.parseInt(parts[1])]=symbole;
 				        try {
-				        	_client.play(); // 
+				        	 // 
+				        	_client.play();
 				        	_client.read();
+				        	
 				        	//
 				        	resetButtonsMarks();
 				        	
@@ -73,12 +78,22 @@ public class TicTacInterface extends JPanel {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-				        
+				       displayWinner();  
 					}
 				});
 	            add(buttons[i]); // ajouter button dans JPanel        
 	        }
 	    }
+		public void displayWinner() {
+		        if(_client.getTabGame()[1]=='1') {
+				JOptionPane pane = new JOptionPane();
+				int dialogResult = JOptionPane.showConfirmDialog(pane,
+						"Game Over. " + _client.getTabGame()[0] + " wins. Would you like to play again?", "Game over.",
+						JOptionPane.YES_NO_OPTION);
+				if(dialogResult == JOptionPane.YES_OPTION) resetButtons();
+				else System.exit(0);
+		        }
+		}
 		private void resetButtonsMarks() {
 			for(int i =0;i<9;i++) {
 				  String[] parts = ((String) buttons[i].getClientProperty("matrice")).split(",");  
@@ -88,9 +103,12 @@ public class TicTacInterface extends JPanel {
 		// methode utilise pour reinitialiser les boutons
 		// pour que vous puissiez jouer a nouveau
 		private void resetButtons() {
+			resetMatrice();
+			_client.setTabGame(new char[] {'X','0'});
 			for(int i =0;i<9;i++) {
 				  buttons[i].setText("?");
-				  buttons[i].setBackground(Color.white);  
+				  buttons[i].setBackground(Color.black);
+		          buttons[i].setForeground(Color.white);
 			  }	
 		}
 
@@ -113,6 +131,7 @@ public class TicTacInterface extends JPanel {
 	        window.setBounds(500,500,500,500); // area
 	        window.setVisible(true); // show the window
 	        window.setLocationRelativeTo(null); // center the window
+	        
 		}
 
 }
